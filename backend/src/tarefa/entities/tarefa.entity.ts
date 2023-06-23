@@ -2,7 +2,9 @@ import { Projeto } from 'src/projeto/entities/projeto.entity';
 import { Usuario } from 'src/usuario/entities/usuario.entity';
 import {
   Column,
+  CreateDateColumn,
   Entity,
+  Generated,
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -13,10 +15,14 @@ export class Tarefa {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('varchar', { length: 50 })
+  @Column()
+  @Generated('uuid')
+  uuid: string;
+
+  @Column('varchar', { length: 100 })
   taskName: string;
 
-  @Column('varchar', { length: 50 })
+  @Column('varchar', { length: 50, default: 'Atribuido' })
   taskStatus: string;
 
   @Column('varchar', { length: 50 })
@@ -24,6 +30,9 @@ export class Tarefa {
 
   @Column('date')
   taskDeadline: Date;
+
+  @CreateDateColumn()
+  created_At: Date;
 
   @ManyToMany(() => Usuario, (usuario) => usuario.tarefa)
   usuario: Usuario[];

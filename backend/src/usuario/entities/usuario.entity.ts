@@ -4,6 +4,7 @@ import { Tarefa } from 'src/tarefa/entities/tarefa.entity';
 import {
   Column,
   Entity,
+  Generated,
   JoinTable,
   ManyToMany,
   ManyToOne,
@@ -15,7 +16,11 @@ export class Usuario {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('varchar', { length: 50 })
+  @Column()
+  @Generated('uuid')
+  uuid: string;
+
+  @Column('varchar', { length: 50, unique: true })
   userLogin: string;
 
   @Column('varchar', { length: 50 })
@@ -24,10 +29,10 @@ export class Usuario {
   @Column('varchar', { length: 50 })
   userName: string;
 
-  @Column('varchar', { length: 50 })
+  @Column('varchar', { length: 50, unique: true })
   userEmail: string;
 
-  @Column('varchar', { length: 1 })
+  @Column({ default: 'c', type: 'varchar', length: 1 })
   userPermission: string;
 
   @Column('varchar', { length: 50 })

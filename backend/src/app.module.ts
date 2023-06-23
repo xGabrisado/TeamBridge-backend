@@ -6,6 +6,7 @@ import { EmpresaModule } from './empresa/empresa.module';
 import { ProjetoModule } from './projeto/projeto.module';
 import { TarefaModule } from './tarefa/tarefa.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+// import { DatabaseModule } from './database/database.module';
 
 @Module({
   imports: [
@@ -16,11 +17,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
-      port: '5432',
+      port: 5432,
       username: 'postgres',
       password: 'admin',
       database: 'teambridge',
-      autoLoadEntities: true,
+      entities: ['/../dist/*.entity{.ts,.js}'],
+      // autoLoadEntities: true,
       synchronize: true,
     }),
   ],

@@ -1,26 +1,56 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTarefaDto } from './dto/create-tarefa.dto';
 import { UpdateTarefaDto } from './dto/update-tarefa.dto';
+import { Tarefa } from './entities/tarefa.entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class TarefaService {
+  constructor(
+    @InjectRepository(Tarefa)
+    private readonly tarefaRepository: Repository<Tarefa>,
+  ) {}
+
   create(createTarefaDto: CreateTarefaDto) {
-    return 'This action adds a new tarefa';
+    const task = this.tarefaRepository.create({ ...createTarefaDto });
+    return this.tarefaRepository.save(task);
   }
 
-  findAll() {
-    return `This action returns all tarefa`;
+  async findAll(): Promise<Tarefa[]> {
+    return this.tarefaRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} tarefa`;
+  async findOne(id: number) {
+    const task = await this.tarefaRepository.findOne({ where: { id } });
+
+    if (!task) {
+      throw new NotFoundException(`Task not found!`);
+    }
+
+    return task;
   }
 
-  update(id: number, updateTarefaDto: UpdateTarefaDto) {
-    return `This action updates a #${id} tarefa`;
+  async update(id: number, updateTarefaDto: UpdateTarefaDto) {
+    const task = await this.tarefaRepository.preload({
+      id: id,
+      ...updateTarefaDto,
+    });
+
+    if (!task) {
+      throw new NotFoundException(`Task not found!`);
+    }
+
+    return this.tarefaRepository.save(task);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} tarefa`;
+  async remove(id: number) {
+    const task = await this.tarefaRepository.findOne({ where: { id } });
+
+    if (!task) {
+      throw new NotFoundException(`Task not found!`);
+    }
+
+    return this.tarefaRepository.remove(task);
   }
 }

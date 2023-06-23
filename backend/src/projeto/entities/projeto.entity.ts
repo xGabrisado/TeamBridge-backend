@@ -2,7 +2,9 @@ import { Tarefa } from 'src/tarefa/entities/tarefa.entity';
 import { Usuario } from 'src/usuario/entities/usuario.entity';
 import {
   Column,
+  CreateDateColumn,
   Entity,
+  Generated,
   ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -13,14 +15,21 @@ export class Projeto {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('varchar', { length: 50 })
+  @Column()
+  @Generated('uuid')
+  uuid: string;
+
+  @Column('varchar', { length: 100 })
   projectName: string;
 
   @Column('varchar', { length: 500 })
-  projecComment: string;
+  projecDescription: string;
 
   @Column('date')
   projectDeadline: Date;
+
+  @CreateDateColumn()
+  created_At: Date;
 
   @ManyToMany(() => Usuario, (usuario) => usuario.projeto)
   usuario: Usuario[];
@@ -31,7 +40,7 @@ export class Projeto {
   constructor(projeto?: Partial<Projeto>) {
     this.id = projeto?.id;
     this.projectName = projeto?.projectName;
-    this.projecComment = projeto?.projecComment;
+    this.projecDescription = projeto?.projecDescription;
     this.projectDeadline = projeto?.projectDeadline;
   }
 }

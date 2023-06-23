@@ -1,21 +1,36 @@
 import { Usuario } from 'src/usuario/entities/usuario.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  Generated,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Empresa {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('varchar', { length: 250 })
+  @Column()
+  @Generated('uuid')
+  uuid: string;
+
+  @Column('varchar', { length: 250, unique: true })
   razaoSocial: string;
 
   @Column('varchar', { length: 250 })
   nomeFantasia: string;
 
-  @Column('varchar', { length: 20 })
+  @Column('varchar', { length: 20, unique: true })
   cpfCnpj: string;
 
-  @OneToMany(() => Usuario, (usuario) => usuario.empresa)
+  @CreateDateColumn()
+  created_At: Date;
+
+  // eslint-disable-next-line prettier/prettier
+  @OneToMany(() => Usuario, usuario => usuario.empresa)
   usuario: Usuario[];
 
   constructor(empresa?: Partial<Empresa>) {
