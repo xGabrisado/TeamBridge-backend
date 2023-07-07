@@ -33,10 +33,10 @@ export class Empresa {
   @OneToMany(() => Usuario, usuario => usuario.empresa)
   usuario: Usuario[];
 
-  constructor(empresa?: Partial<Empresa>) {
-    this.id = empresa?.id;
-    this.razaoSocial = empresa?.razaoSocial;
-    this.nomeFantasia = empresa?.nomeFantasia;
-    this.cpfCnpj = empresa?.cpfCnpj;
-  }
+  // constructor(empresa?: Partial<Empresa>) {
+  //   this.id = empresa?.id;
+  //   this.razaoSocial = empresa?.razaoSocial;
+  //   this.nomeFantasia = empresa?.nomeFantasia;
+  //   this.cpfCnpj = empresa?.cpfCnpj;
+  // }
 }

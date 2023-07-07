@@ -22,7 +22,7 @@ export class Projeto {
   @Column('varchar', { length: 100 })
   projectName: string;
 
-  @Column('varchar', { length: 500 })
+  @Column('text', { nullable: true })
   projecDescription: string;
 
   @Column('date')
@@ -31,16 +31,16 @@ export class Projeto {
   @CreateDateColumn()
   created_At: Date;
 
-  @ManyToMany(() => Usuario, (usuario) => usuario.projeto)
+  @ManyToMany(() => Usuario, usuario => usuario.projeto)
   usuario: Usuario[];
 
-  @OneToMany(() => Tarefa, (tarefa) => tarefa.projeto)
+  @OneToMany(() => Tarefa, tarefa => tarefa.projeto)
   tarefa: Tarefa[];
 
-  constructor(projeto?: Partial<Projeto>) {
-    this.id = projeto?.id;
-    this.projectName = projeto?.projectName;
-    this.projecDescription = projeto?.projecDescription;
-    this.projectDeadline = projeto?.projectDeadline;
-  }
+  // constructor(projeto?: Partial<Projeto>) {
+  //   this.id = projeto?.id;
+  //   this.projectName = projeto?.projectName;
+  //   this.projecDescription = projeto?.projecDescription;
+  //   this.projectDeadline = projeto?.projectDeadline;
+  // }
 }

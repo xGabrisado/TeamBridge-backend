@@ -42,6 +42,7 @@ export class EmpresaService {
     if (!company) {
       throw new NotFoundException(`Company not found`);
     }
+
     return this.empresaRepository.save(company);
   }
 

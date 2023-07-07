@@ -6,7 +6,10 @@ import { EmpresaModule } from './empresa/empresa.module';
 import { ProjetoModule } from './projeto/projeto.module';
 import { TarefaModule } from './tarefa/tarefa.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-// import { DatabaseModule } from './database/database.module';
+import { Usuario } from './usuario/entities/usuario.entity';
+import { Tarefa } from './tarefa/entities/tarefa.entity';
+import { Projeto } from './projeto/entities/projeto.entity';
+import { Empresa } from './empresa/entities/empresa.entity';
 
 @Module({
   imports: [
@@ -21,7 +24,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       username: 'postgres',
       password: 'admin',
       database: 'teambridge',
-      entities: ['/../dist/*.entity{.ts,.js}'],
+      entities: [Usuario, Tarefa, Projeto, Empresa],
       // autoLoadEntities: true,
       synchronize: true,
     }),
