@@ -3,11 +3,13 @@ import { Usuario } from 'src/usuario/entities/usuario.entity';
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   Generated,
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -34,10 +36,16 @@ export class Tarefa {
   @CreateDateColumn()
   created_At: Date;
 
-  @ManyToMany(() => Usuario, (usuario) => usuario.tarefa)
+  @UpdateDateColumn()
+  updated_At: string;
+
+  @DeleteDateColumn()
+  deleted_At: string;
+
+  @ManyToMany(() => Usuario, usuario => usuario.tarefa)
   usuario: Usuario[];
 
-  @ManyToOne(() => Projeto, (projeto) => projeto.tarefa)
+  @ManyToOne(() => Projeto, projeto => projeto.tarefa)
   projeto: Projeto;
 
   constructor(tarefa?: Partial<Tarefa>) {
