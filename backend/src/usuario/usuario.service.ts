@@ -4,7 +4,6 @@ import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { Usuario } from './entities/usuario.entity';
 import { FindOneOptions, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { error } from 'console';
 
 @Injectable()
 export class UsuarioService {
@@ -23,6 +22,19 @@ export class UsuarioService {
       select: ['id', 'userName', 'userLastName', 'userPost'],
     });
   }
+
+  // async findOne(email: string) {
+  //   const user = await this.usuarioRepository.findOne({
+  //     where: {
+  //       userEmail: email,
+  //     },
+  //   });
+
+  //   if (!user) {
+  //     throw new NotFoundException();
+  //   }
+  //   return user;
+  // }
 
   async findOneOrFail(options: FindOneOptions<Usuario>) {
     try {

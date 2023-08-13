@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { UsuarioService } from 'src/usuario/usuario.service';
-import { comparSync } from 'bcrypt';
+import { compareSync } from 'bcrypt';
 import { Usuario } from 'src/usuario/entities/usuario.entity';
 import { JwtService } from '@nestjs/jwt';
 
@@ -11,7 +11,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async login(user) {
+  async login(user: any) {
     console.log('userAuthService');
     console.log(user);
     const payload = { sub: user.id, userEmail: user.userEmail };
@@ -21,10 +21,7 @@ export class AuthService {
     };
   }
 
-  async validateUser(userEmail: string, userPassword: string) {
-    console.log(userEmail);
-    console.log(userPassword);
-
+  async validateUser(userEmail: string, password: string) {
     let user: Usuario;
     try {
       user = await this.usuarioService.findOneOrFail({
@@ -34,8 +31,9 @@ export class AuthService {
       return null;
     }
 
-    const isPasswordValid = comparSync(userPassword, user.userPassword);
+    const isPasswordValid = compareSync(password, user.password);
     if (!isPasswordValid) return null;
+    console.log(password, user.password);
 
     return user;
   }

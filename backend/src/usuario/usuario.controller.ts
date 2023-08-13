@@ -9,14 +9,17 @@ import {
   ParseUUIDPipe,
   HttpCode,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import { UsuarioService } from './usuario.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('Users')
 @Controller('usuario')
+@UseGuards(AuthGuard('jwt'))
 export class UsuarioController {
   constructor(private readonly usuarioService: UsuarioService) {}
 
@@ -36,7 +39,18 @@ export class UsuarioController {
   @ApiForbiddenResponse({ description: 'Acesso negado' })
   @Get(':id')
   async findOne(@Param('id', new ParseUUIDPipe()) id: string) {
-    return await this.usuarioService.findOneOrFail({ where: { id } });
+    return await this.usuarioService.findOneOrFail({
+      where: { id },
+      select: [
+        'userEmail',
+        'userName',
+        'userLastName',
+        'created_At',
+        'updated_At',
+        'userPost',
+        'userPermission',
+      ],
+    });
   }
 
   @ApiForbiddenResponse({ description: 'Acesso negado' })

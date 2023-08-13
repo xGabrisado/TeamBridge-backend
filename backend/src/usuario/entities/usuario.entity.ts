@@ -31,7 +31,7 @@ export class Usuario {
   // userLogin: string;
 
   @Column('varchar', { length: 500, nullable: true })
-  userPassword: string;
+  password: string;
 
   @Column({ length: 100, nullable: true })
   userName: string;
@@ -70,7 +70,7 @@ export class Usuario {
 
   @BeforeInsert()
   hashPassword() {
-    this.userPassword = hashSync(this.userPassword, 10);
+    this.password = hashSync(this.password, 10);
   }
 
   // constructor(usuario?: Partial<Usuario>) {

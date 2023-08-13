@@ -13,7 +13,7 @@ export class CreateUsuarioDto {
   @Matches(RegExHelper.password, {
     message: MessagesHelper.PASSWORD_VALID,
   })
-  readonly userPassword: string;
+  readonly password: string;
 
   @ApiProperty({ description: 'Nome do usuário' })
   @IsString()
