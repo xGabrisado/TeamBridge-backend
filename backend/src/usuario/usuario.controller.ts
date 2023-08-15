@@ -19,7 +19,6 @@ import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('Users')
 @Controller('usuario')
-@UseGuards(AuthGuard('jwt'))
 export class UsuarioController {
   constructor(private readonly usuarioService: UsuarioService) {}
 
@@ -30,6 +29,7 @@ export class UsuarioController {
     return await this.usuarioService.create(createUsuarioDto);
   }
 
+  // @UseGuards(AuthGuard('jwt'))
   @ApiForbiddenResponse({ description: 'Acesso negado' })
   @Get()
   async findAll() {
@@ -53,6 +53,7 @@ export class UsuarioController {
     });
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @ApiForbiddenResponse({ description: 'Acesso negado' })
   @Patch(':id')
   async update(
@@ -62,6 +63,7 @@ export class UsuarioController {
     return await this.usuarioService.update(id, updateUsuarioDto);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @ApiForbiddenResponse({ description: 'Acesso negado' })
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)

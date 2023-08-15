@@ -75,7 +75,7 @@ export default function Dashboard(props) {
 
   return (
     <>
-      <Box sx={{ display: "flex", width: "100%", bgcolor: "" }}>
+      <Box sx={{ display: "flex", width: "100%" }}>
         <CssBaseline />
         <AppBar position="absolute" open={open}>
           <Toolbar
@@ -149,10 +149,10 @@ export default function Dashboard(props) {
             height: "100vh",
             width: {
               xs: 500, // 0
-              sm: 820, // 600
-              md: 1120, // 900
-              lg: 1300, // 1200
-              xl: 1750, // 1536
+              sm: 600, // 600
+              md: 960, // 900
+              lg: 1200, // 1200
+              xl: 1300, // 1536
             },
             objectFit: "contain",
             // paddingY: "auto",
@@ -161,7 +161,7 @@ export default function Dashboard(props) {
         >
           <Toolbar />
           <Container maxWidth="xl" sx={{ mt: 4, mb: 4, flexGrow: 1 }}>
-            <Grid conainer spacing={3}></Grid>
+            <Grid container spacing={2}></Grid>
             {props.Outlet}
           </Container>
         </Box>

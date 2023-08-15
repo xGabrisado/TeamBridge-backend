@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsString, Matches } from 'class-validator';
+import { IsEmail, IsOptional, IsString, Matches } from 'class-validator';
 import { MessagesHelper } from 'src/Helpers/messages.helper';
 import { RegExHelper } from 'src/Helpers/regex.helper';
 
@@ -32,5 +32,6 @@ export class CreateUsuarioDto {
     example: 'Programador, gerente, designer, ele escreve aqui.',
   })
   @IsString()
+  @IsOptional()
   readonly userPost: string;
 }

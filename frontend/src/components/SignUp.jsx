@@ -11,8 +11,9 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { createTheme } from "@mui/material/styles";
 import { Link } from "react-router-dom";
+import { RegExHelper } from "../helpers/regex.helper";
+import { useState } from "react";
 
 // function Copyright(props) {
 //   return (
@@ -37,17 +38,120 @@ import { Link } from "react-router-dom";
 // const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const handleSubmit = (event) => {
+  const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
+    // console.log({
+    //   email: data.get("email"),
+    //   password: data.get("password"),
+    // });
+    const cadastro = {
+      userEmail: data.get("email"),
       password: data.get("password"),
+      userName: data.get("firstName"),
+      userLastName: data.get("lastName"),
+      userPost: data.get("cargo"),
+    };
+    // console.log(cadastro.userName, cadastro.userLastName);
+
+    const emailError = !cadastro.userEmail.match(RegExHelper.emailMatch);
+    const passwordError = !cadastro.password.match(RegExHelper.passwordMatch);
+    const nameError =
+      cadastro.userName.trim().length === 0 ||
+      cadastro.userLastName.trim().length === 0;
+
+    console.log("nameError");
+    console.log(nameError);
+
+    if (emailError) {
+      setIsError((pastError) => {
+        return {
+          ...pastError,
+          email: "Favor inserir um email válido",
+        };
+      });
+    }
+    if (!emailError) {
+      setIsError((pastError) => {
+        return {
+          ...pastError,
+          email: null,
+        };
+      });
+    }
+    if (nameError) {
+      setIsError((pastError) => {
+        return {
+          ...pastError,
+          name: "Favor inserir um nome e/ou sobrenome",
+        };
+      });
+    }
+    if (!nameError) {
+      setIsError((pastError) => {
+        return {
+          ...pastError,
+          name: null,
+        };
+      });
+    }
+    if (passwordError) {
+      setIsError((pastError) => {
+        return {
+          ...pastError,
+          password: "Favor inserir uma senha válida",
+        };
+      });
+    }
+    if (!passwordError) {
+      setIsError((pastError) => {
+        return {
+          ...pastError,
+          password: null,
+        };
+      });
+    }
+
+    if (emailError || passwordError || nameError) {
+      return;
+    }
+
+    setIsError(false);
+
+    setIsLoading(true);
+    const response = await fetch("http://localhost:3000/usuario", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(cadastro),
     });
+
+    if (response.status === 409) {
+      console.log(response.error);
+      setIsError({ message: "Email Já existente, favor inserir outro" });
+      setIsLoading(false);
+      return;
+      // throw new Error({ message: "Email/Senha inválidos" });
+    }
+
+    if (!response.ok) {
+      setIsError({ message: "Erro com a conexão backend" });
+      setIsLoading(false);
+      return;
+      // throw json({ message: "Could not authenticate user." }, { status: 500 });
+    }
+
+    const resData = await response.json();
+    console.log(resData);
+    setIsError({ message: "Cadastrado com sucesso" });
+    setIsLoading(false);
   };
 
   return (
-    // <ThemeProvider theme={defaultTheme}>
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Box
@@ -87,6 +191,13 @@ export default function SignUp() {
                 autoComplete="family-name"
               />
             </Grid>
+            {isError.name && (
+              <Grid item xs={12} sx={{ marginTop: "-10px" }}>
+                <Typography component="p" sx={{ color: "red" }}>
+                  {isError.name}
+                </Typography>
+              </Grid>
+            )}
             <Grid item xs={12}>
               <TextField
                 required
@@ -97,6 +208,13 @@ export default function SignUp() {
                 autoComplete="email"
               />
             </Grid>
+            {isError.email && (
+              <Grid item xs={12} sx={{ marginTop: "-10px" }}>
+                <Typography component="p" sx={{ color: "red" }}>
+                  {isError.email}
+                </Typography>
+              </Grid>
+            )}
             <Grid item xs={12}>
               <TextField
                 required
@@ -108,6 +226,23 @@ export default function SignUp() {
                 autoComplete="new-password"
               />
             </Grid>
+            {isError.password && (
+              <Grid item xs={12} sx={{ marginTop: "-10px" }}>
+                <Typography component="p" sx={{ color: "red" }}>
+                  {isError.password}
+                </Typography>
+              </Grid>
+            )}
+            <Grid item xs={12}>
+              <TextField
+                // required
+                fullWidth
+                name="cargo"
+                label="Cargo na empresa"
+                type="text"
+                id="cargo"
+              />
+            </Grid>
             {/* <Grid item xs={12}>
                 <FormControlLabel
                   control={
@@ -116,6 +251,16 @@ export default function SignUp() {
                   label="I want to receive inspiration, marketing promotions and updates via email."
                 />
               </Grid> */}
+            {isError.message && (
+              <Grid item xs={12}>
+                {isError.message}
+              </Grid>
+            )}
+            {isLoading && (
+              <Grid item xs={12}>
+                Loading...
+              </Grid>
+            )}
           </Grid>
           <Button
             type="submit"
@@ -136,6 +281,5 @@ export default function SignUp() {
       </Box>
       {/* <Copyright sx={{ mt: 5 }} /> */}
     </Container>
-    // </ThemeProvider>
   );
 }

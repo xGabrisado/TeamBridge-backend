@@ -45,8 +45,8 @@ export class Usuario {
   @Column({ default: 'c', type: 'varchar', length: 1 })
   userPermission: string;
 
-  @Column('varchar', { length: 50 })
-  userPost: string;
+  @Column('varchar', { length: 50, nullable: true })
+  userPost?: string;
 
   @CreateDateColumn()
   created_At: Date;

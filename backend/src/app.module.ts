@@ -6,10 +6,10 @@ import { EmpresaModule } from './empresa/empresa.module';
 import { ProjetoModule } from './projeto/projeto.module';
 import { TarefaModule } from './tarefa/tarefa.module';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { Usuario } from './usuario/entities/usuario.entity';
-import { Tarefa } from './tarefa/entities/tarefa.entity';
-import { Projeto } from './projeto/entities/projeto.entity';
-import { Empresa } from './empresa/entities/empresa.entity';
+// import { Usuario } from './usuario/entities/usuario.entity';
+// import { Tarefa } from './tarefa/entities/tarefa.entity';
+// import { Projeto } from './projeto/entities/projeto.entity';
+// import { Empresa } from './empresa/entities/empresa.entity';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 
