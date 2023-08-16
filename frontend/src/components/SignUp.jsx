@@ -102,7 +102,8 @@ export default function SignUp() {
       setIsError((pastError) => {
         return {
           ...pastError,
-          password: "Favor inserir uma senha válida",
+          password:
+            "Favor inserir uma senha que possua letras maiúsculas, minúsculas, números e caractere especial, com no minimo 7 caracteres",
         };
       });
     }
@@ -179,6 +180,7 @@ export default function SignUp() {
                 id="firstName"
                 label="Nome"
                 autoFocus
+                color="secondary"
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -189,6 +191,7 @@ export default function SignUp() {
                 label="Sobrenome"
                 name="lastName"
                 autoComplete="family-name"
+                color="secondary"
               />
             </Grid>
             {isError.name && (
@@ -206,6 +209,7 @@ export default function SignUp() {
                 label="Email"
                 name="email"
                 autoComplete="email"
+                color="secondary"
               />
             </Grid>
             {isError.email && (
@@ -224,6 +228,7 @@ export default function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="new-password"
+                color="secondary"
               />
             </Grid>
             {isError.password && (
@@ -241,6 +246,7 @@ export default function SignUp() {
                 label="Cargo na empresa"
                 type="text"
                 id="cargo"
+                color="secondary"
               />
             </Grid>
             {/* <Grid item xs={12}>

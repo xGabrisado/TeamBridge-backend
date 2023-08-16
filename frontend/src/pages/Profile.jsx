@@ -1,7 +1,10 @@
 import { redirect } from "react-router-dom";
 import ProfileForm from "../components/ProfileForm";
 import jwt_decode from "jwt-decode";
-import { getTokenId } from "../helpers/functions.helper";
+import {
+  getAuthenticationToken,
+  getTokenId,
+} from "../helpers/functions.helper";
 
 export default function ProfilePage() {
   return <ProfileForm />;
@@ -37,11 +40,19 @@ export async function action({ request }) {
   };
 
   const id = getTokenId();
+  const token = getAuthenticationToken();
 
   const response = await fetch("http://localhost:3000/usuario/" + `${id}`, {
-    method: "POST",
-    headers: {},
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + `${token}`,
+    },
+    body: JSON.stringify(profileUpdated),
   });
+
+  const resData = await response.json();
+  console.log(resData);
   //   console.log(id);
   //   console.log("profileUpdated");
   //   console.log(profileUpdated);

@@ -81,6 +81,7 @@ export class UsuarioService {
 
   async remove(id: string) {
     await this.usuarioRepository.findOneOrFail({ where: { id } });
+
     return this.usuarioRepository.softDelete(id);
   }
 }

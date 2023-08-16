@@ -127,6 +127,7 @@ export default function SigIn() {
               name="email"
               autoComplete="email"
               autoFocus
+              color="secondary"
             />
             <TextField
               margin="normal"
@@ -136,6 +137,7 @@ export default function SigIn() {
               label="Password"
               type="password"
               id="password"
+              color="secondary"
               autoComplete="current-password"
             />
             {/* <FormControlLabel

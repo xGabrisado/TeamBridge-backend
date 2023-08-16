@@ -60,7 +60,13 @@ export class UsuarioController {
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updateUsuarioDto: UpdateUsuarioDto,
   ) {
-    return await this.usuarioService.update(id, updateUsuarioDto);
+    const updatedUser = await this.usuarioService.update(id, updateUsuarioDto);
+    return {
+      userName: updatedUser.userName,
+      userLastName: updatedUser.userLastName,
+      userEmail: updatedUser.userEmail,
+      userPost: updatedUser.userPost,
+    };
   }
 
   @UseGuards(AuthGuard('jwt'))
