@@ -191,7 +191,7 @@ const ProfileForm = () => {
                 onClick={disableAccountHandler}
                 color="error"
               >
-                Desativar conta
+                Excluir conta
               </Button>
             </Form>
           </Box>

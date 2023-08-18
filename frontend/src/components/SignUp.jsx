@@ -11,7 +11,7 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { RegExHelper } from "../helpers/regex.helper";
 import { useState } from "react";
 
@@ -40,6 +40,7 @@ import { useState } from "react";
 export default function SignUp() {
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate()
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -62,9 +63,29 @@ export default function SignUp() {
     const nameError =
       cadastro.userName.trim().length === 0 ||
       cadastro.userLastName.trim().length === 0;
+    
+    const confirmPasswordError = cadastro.password !== data.get('confirmPassword')
 
-    console.log("nameError");
-    console.log(nameError);
+    // console.log("nameError");
+    // console.log(nameError);
+
+    if (confirmPasswordError) {
+      setIsError((pastError) => {
+        return {
+          ...pastError,
+          confirmPassword: 'As senhas devem ser iguais'
+        }
+      })
+    }
+
+    if (!confirmPasswordError) {
+      setIsError((pastError) => {
+        return {
+          ...pastError,
+          confirmPassword: 'As senhas devem ser iguais'
+        }
+      })
+    }
 
     if (emailError) {
       setIsError((pastError) => {
@@ -150,6 +171,7 @@ export default function SignUp() {
     console.log(resData);
     setIsError({ message: "Cadastrado com sucesso" });
     setIsLoading(false);
+    navigate('/auth')
   };
 
   return (
@@ -235,6 +257,25 @@ export default function SignUp() {
               <Grid item xs={12} sx={{ marginTop: "-10px" }}>
                 <Typography component="p" sx={{ color: "red" }}>
                   {isError.password}
+                </Typography>
+              </Grid>
+            )}
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                name="confirmPassword"
+                label="Confirmar Senha"
+                type="password"
+                id="confirmPassword"
+                autoComplete="confirm-new-password"
+                color="secondary"
+              />
+            </Grid>
+            {isError.confirmPassword && (
+              <Grid item xs={12} sx={{ marginTop: "-10px" }}>
+                <Typography component="p" sx={{ color: "red" }}>
+                  {isError.confirmPassword}
                 </Typography>
               </Grid>
             )}
