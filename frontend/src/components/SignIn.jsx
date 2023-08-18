@@ -57,12 +57,17 @@ export default function SigIn() {
 
     if (response.status === 422 || response.status === 401) {
       console.log(response.error);
+      console.log(response.message);
       setIsError({ message: "Email ou Senha inválidos" });
       return;
       // throw new Error({ message: "Email/Senha inválidos" });
     }
     console.log("response");
     console.log(response);
+
+    if (response.status === 404) {
+      setIsError({message: response.message})
+    }
 
     if (!response.ok) {
       setIsError({ message: "Erro com a conexão backend" });

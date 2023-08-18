@@ -1,6 +1,5 @@
 import { redirect } from "react-router-dom";
 import ProfileForm from "../components/ProfileForm";
-import jwt_decode from "jwt-decode";
 import {
   getAuthenticationToken,
   getTokenId,
