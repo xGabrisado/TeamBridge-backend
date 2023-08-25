@@ -2,10 +2,12 @@ import { Usuario } from 'src/usuario/entities/usuario.entity';
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   Generated,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -29,8 +31,14 @@ export class Empresa {
   @CreateDateColumn()
   created_At: Date;
 
+  @UpdateDateColumn()
+  updated_At: Date;
+
+  @DeleteDateColumn()
+  deleted_At: Date;
+
   // eslint-disable-next-line prettier/prettier
-  @OneToMany(() => Usuario, usuario => usuario.empresa)
+  @OneToMany(() => Usuario, (usuario) => usuario.empresa)
   usuario: Usuario[];
 
   // constructor(empresa?: Partial<Empresa>) {

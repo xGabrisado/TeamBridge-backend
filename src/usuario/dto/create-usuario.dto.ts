@@ -1,7 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsOptional, IsString, Matches } from 'class-validator';
+import {
+  IsEmail,
+  IsNumber,
+  IsObject,
+  IsOptional,
+  IsString,
+  Matches,
+} from 'class-validator';
 import { MessagesHelper } from 'src/Helpers/messages.helper';
 import { RegExHelper } from 'src/Helpers/regex.helper';
+import { Empresa } from 'src/empresa/entities/empresa.entity';
 
 export class CreateUsuarioDto {
   // @ApiProperty({ description: 'Login do usuário', uniqueItems: true })
@@ -34,4 +42,16 @@ export class CreateUsuarioDto {
   @IsString()
   @IsOptional()
   readonly userPost: string;
+
+  @ApiProperty({ description: 'Permissões de usuário' })
+  @IsString()
+  @IsOptional()
+  readonly userPermission: string;
+
+  // @ApiProperty({
+  //   description: 'Empresa em que usuário trabalha',
+  // })
+  // @IsObject()
+  // @IsOptional()
+  // readonly empresa: Empresa;
 }

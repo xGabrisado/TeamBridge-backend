@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { IsObject, IsString } from 'class-validator';
+import { Usuario } from 'src/usuario/entities/usuario.entity';
 
 export class CreateEmpresaDto {
   @ApiProperty({ description: 'Razão Social da empresa', uniqueItems: true })
@@ -13,4 +14,8 @@ export class CreateEmpresaDto {
   @ApiProperty({ description: 'CPF ou CNPJ da empresa', uniqueItems: true })
   @IsString()
   readonly cpfCnpj: string;
+
+  // @ApiProperty({ description: 'CPF ou CNPJ da empresa', uniqueItems: true })
+  // @IsObject()
+  // readonly usuario: Usuario[];
 }

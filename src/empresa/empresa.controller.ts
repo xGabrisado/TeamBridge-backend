@@ -6,13 +6,17 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { EmpresaService } from './empresa.service';
 import { CreateEmpresaDto } from './dto/create-empresa.dto';
 import { UpdateEmpresaDto } from './dto/update-empresa.dto';
 import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('Company')
+@UseGuards(AuthGuard('jwt'))
 @Controller('empresa')
 export class EmpresaController {
   constructor(private readonly empresaService: EmpresaService) {}
@@ -23,8 +27,12 @@ export class EmpresaController {
   })
   @ApiForbiddenResponse({ description: 'Acesso negado' })
   @Post()
-  create(@Body() createEmpresaDto: CreateEmpresaDto) {
-    return this.empresaService.create(createEmpresaDto);
+  create(@Body() createEmpresaDto: CreateEmpresaDto, @Req() req: any) {
+    const userId = req.user.id;
+    // console.log(req.user);
+    // console.log(userId);
+
+    return this.empresaService.create(createEmpresaDto, userId);
   }
 
   @ApiForbiddenResponse({ description: 'Acesso negado' })

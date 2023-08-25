@@ -12,6 +12,7 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 // import { Empresa } from './empresa/entities/empresa.entity';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
+import { CaslModule } from './casl/casl.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { AuthModule } from './auth/auth.module';
       synchronize: true,
     } as TypeOrmModuleOptions),
     AuthModule,
+    CaslModule,
   ],
   controllers: [AppController],
   providers: [AppService],

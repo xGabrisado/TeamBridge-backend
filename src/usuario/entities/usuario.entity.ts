@@ -4,6 +4,7 @@ import { Projeto } from 'src/projeto/entities/projeto.entity';
 import { Tarefa } from 'src/tarefa/entities/tarefa.entity';
 import {
   BeforeInsert,
+  BeforeUpdate,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
@@ -71,6 +72,12 @@ export class Usuario {
   @BeforeInsert()
   hashPassword() {
     this.password = hashSync(this.password, 10);
+  }
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  emailToLowerCase() {
+    this.userEmail = this.userEmail.toLocaleLowerCase();
   }
 
   // constructor(usuario?: Partial<Usuario>) {
