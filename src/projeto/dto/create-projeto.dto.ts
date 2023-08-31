@@ -8,7 +8,7 @@ export class CreateProjetoDto {
 
   @ApiProperty({ description: 'Descrição do projeto' })
   @IsString()
-  readonly projecDescription: string;
+  readonly projectDescription: string;
 
   @ApiProperty({ description: 'Prazo de entrega do projeto' })
   @IsDateString()

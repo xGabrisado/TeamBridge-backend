@@ -53,7 +53,7 @@ export class ProjetoService {
       select: {
         id: true,
         projectName: true,
-        projecDescription: true,
+        projectDescription: true,
         projectDeadline: true,
         usuario: {
           id: true,
@@ -77,7 +77,7 @@ export class ProjetoService {
       select: {
         id: true,
         projectName: true,
-        projecDescription: true,
+        projectDescription: true,
         projectDeadline: true,
         created_At: true,
         usuario: {
