@@ -61,8 +61,10 @@ export class Usuario {
   @ManyToOne(() => Empresa, (empresa) => empresa.usuario)
   empresa: Empresa;
 
-  @JoinTable()
-  @ManyToMany(() => Projeto, (projeto) => projeto.usuario)
+  @JoinTable({ name: 'usuario_projeto' })
+  @ManyToMany(() => Projeto, (projeto) => projeto.usuario, {
+    cascade: true,
+  })
   projeto: Projeto[];
 
   @JoinTable()

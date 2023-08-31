@@ -14,6 +14,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 // import { Empresa } from 'src/empresa/entities/empresa.entity';
 // import { log } from 'console';
 import { EmpresaService } from 'src/empresa/empresa.service';
+import { Projeto } from 'src/projeto/entities/projeto.entity';
 
 @Injectable()
 export class UsuarioService {
@@ -167,6 +168,19 @@ export class UsuarioService {
     this.usuarioRepository.merge(user, { empresa: { id: company.id } });
 
     return this.usuarioRepository.save(user);
+  }
+
+  async updateProject(userId: string, project: any) {
+    const user = await this.usuarioRepository.findOne({
+      where: { id: userId },
+      relations: {
+        projeto: true,
+      },
+    });
+
+    user.projeto.push(project);
+
+    return await this.usuarioRepository.save(user);
   }
 
   async remove(id: string) {

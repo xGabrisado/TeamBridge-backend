@@ -1,3 +1,4 @@
+import { Projeto } from 'src/projeto/entities/projeto.entity';
 import { Usuario } from 'src/usuario/entities/usuario.entity';
 import {
   Column,
@@ -40,6 +41,9 @@ export class Empresa {
   // eslint-disable-next-line prettier/prettier
   @OneToMany(() => Usuario, (usuario) => usuario.empresa)
   usuario: Usuario[];
+
+  @OneToMany(() => Projeto, (usuario) => usuario.empresa)
+  projeto: Projeto[];
 
   // constructor(empresa?: Partial<Empresa>) {
   //   this.id = empresa?.id;
