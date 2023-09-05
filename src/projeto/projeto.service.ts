@@ -1,4 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateProjetoDto } from './dto/create-projeto.dto';
 import { UpdateProjetoDto } from './dto/update-projeto.dto';
 import { Projeto } from './entities/projeto.entity';
@@ -7,6 +13,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UsuarioService } from 'src/usuario/usuario.service';
 import { UUID } from 'crypto';
 import { Console } from 'console';
+import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
+// import { ForbiddenError } from '@casl/ability';
 
 @Injectable()
 export class ProjetoService {
@@ -35,6 +43,19 @@ export class ProjetoService {
 
   async findAll(userId: any): Promise<Projeto[]> {
     const user = await this.usuarioService.findOneEmpresa(userId);
+
+    const haveCompany = await user.empresa;
+
+    if (!haveCompany) {
+      throw new HttpException(
+        'Você não possui empresa',
+        HttpStatus.METHOD_NOT_ALLOWED,
+      );
+      // BadRequestException('Você não possui empresa', {
+      //   cause: new Error(),
+      //   description: 'Some error description',
+      // });
+    }
 
     return this.projetoRepository.find({
       relations: {
@@ -83,6 +104,7 @@ export class ProjetoService {
         usuario: {
           userName: true,
           userLastName: true,
+          id: true,
         },
         tarefa: true,
       },
@@ -134,6 +156,38 @@ export class ProjetoService {
     // console.log(projectUser);
 
     projectUser.usuario.push(user);
+
+    await this.projetoRepository.save(projectUser);
+
+    return projectUser;
+  }
+
+  async removeUser(projectId: number, id: string) {
+    const user = await this.usuarioService.findOneOrFail({
+      where: { id },
+    });
+
+    // console.log('user');
+    // console.log(user);
+
+    const projectUser = await this.projetoRepository.findOne({
+      where: { id: projectId },
+      relations: { usuario: true },
+      select: {
+        projectName: true,
+        id: true,
+        usuario: {
+          id: true,
+          userEmail: true,
+          userName: true,
+          userLastName: true,
+        },
+      },
+    });
+
+    projectUser.usuario = projectUser.usuario.filter((usuario) => {
+      return usuario.id !== user.id;
+    });
 
     await this.projetoRepository.save(projectUser);
 

@@ -53,6 +53,15 @@ export class ProjetoController {
   }
 
   @ApiForbiddenResponse({ description: 'Acesso negado' })
+  @Patch('/removeUser/:id')
+  removeUser(@Param('id') id: string, @Body() body: any) {
+    // console.log(id);
+    // console.log(body.userId);
+
+    return this.projetoService.removeUser(+id, body.userId);
+  }
+
+  @ApiForbiddenResponse({ description: 'Acesso negado' })
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProjetoDto: UpdateProjetoDto) {
     return this.projetoService.update(+id, updateProjetoDto);
