@@ -25,7 +25,7 @@ export class ProjetoController {
   @Post()
   create(@Body() createProjetoDto: CreateProjetoDto, @Req() req: any) {
     const id = req.user.id;
-    console.log(id);
+    // console.log(id);
 
     return this.projetoService.create(createProjetoDto, id);
   }

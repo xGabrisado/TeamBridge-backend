@@ -10,6 +10,10 @@ export class CreateProjetoDto {
   @IsString()
   readonly projectDescription: string;
 
+  @ApiProperty({ description: 'Quando o projeto se iniciará' })
+  @IsDateString()
+  readonly projectBeginning: Date;
+
   @ApiProperty({ description: 'Prazo de entrega do projeto' })
   @IsDateString()
   readonly projectDeadline: Date;

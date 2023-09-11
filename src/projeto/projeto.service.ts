@@ -100,6 +100,7 @@ export class ProjetoService {
         projectName: true,
         projectDescription: true,
         projectDeadline: true,
+        projectBeginning: true,
         created_At: true,
         usuario: {
           userName: true,

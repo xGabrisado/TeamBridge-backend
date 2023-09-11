@@ -29,6 +29,9 @@ export class Projeto {
   @Column('text', { nullable: true })
   projectDescription: string;
 
+  @Column('date', { nullable: true })
+  projectBeginning: Date;
+
   @Column('date')
   projectDeadline: Date;
 
