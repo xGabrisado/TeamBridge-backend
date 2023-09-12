@@ -5,9 +5,10 @@ import { TarefaController } from './tarefa.controller';
 // import { taskProviders } from './tarefa.providers';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Tarefa } from './entities/tarefa.entity';
+import { UsuarioModule } from 'src/usuario/usuario.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Tarefa])],
+  imports: [TypeOrmModule.forFeature([Tarefa]), UsuarioModule],
   controllers: [TarefaController],
   providers: [TarefaService],
 })

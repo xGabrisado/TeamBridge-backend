@@ -44,6 +44,17 @@ export class ProjetoController {
   }
 
   @ApiForbiddenResponse({ description: 'Acesso negado' })
+  @Patch('/done/:id')
+  projectDone(@Param('id') id: string) {
+    // console.log(id);
+    // console.log(body.userEmail);
+    console.log('id');
+    console.log(id);
+
+    return this.projetoService.projectDone(+id);
+  }
+
+  @ApiForbiddenResponse({ description: 'Acesso negado' })
   @Patch('/addUser/:id')
   updateUsuario(@Param('id') id: string, @Body() body: any) {
     // console.log(id);

@@ -35,6 +35,9 @@ export class Projeto {
   @Column('date')
   projectDeadline: Date;
 
+  @Column({ type: 'boolean', default: false, nullable: true })
+  isDone: boolean;
+
   @CreateDateColumn()
   created_At: Date;
 

@@ -75,6 +75,8 @@ export class ProjetoService {
         id: true,
         projectName: true,
         projectDescription: true,
+        projectBeginning: true,
+        isDone: true,
         projectDeadline: true,
         usuario: {
           id: true,
@@ -101,6 +103,7 @@ export class ProjetoService {
         projectDescription: true,
         projectDeadline: true,
         projectBeginning: true,
+        isDone: true,
         created_At: true,
         usuario: {
           userName: true,
@@ -128,6 +131,23 @@ export class ProjetoService {
       throw new NotFoundException(`Project not found!`);
     }
     return this.projetoRepository.save(project);
+  }
+
+  async projectDone(id: number) {
+    const project = await this.projetoRepository.findOne({ where: { id } });
+    if (!project) {
+      throw new NotFoundException("Couldn't found the project");
+    }
+
+    // console.log('project before');
+    // console.log(project);
+
+    project.isDone = true;
+
+    // console.log('project after');
+    // console.log(project);
+
+    return await this.projetoRepository.save(project);
   }
 
   async updateUsuario(projectId: number, userEmail: string) {

@@ -6,13 +6,17 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { TarefaService } from './tarefa.service';
 import { CreateTarefaDto } from './dto/create-tarefa.dto';
 import { UpdateTarefaDto } from './dto/update-tarefa.dto';
 import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('Tasks')
+@UseGuards(AuthGuard('jwt'))
 @Controller('tarefa')
 export class TarefaController {
   constructor(private readonly tarefaService: TarefaService) {}
@@ -25,8 +29,10 @@ export class TarefaController {
 
   @ApiForbiddenResponse({ description: 'Acesso negado' })
   @Get()
-  findAll() {
-    return this.tarefaService.findAll();
+  findAll(@Req() req: any) {
+    const id = req.user.id;
+
+    return this.tarefaService.findAll(id);
   }
 
   @ApiForbiddenResponse({ description: 'Acesso negado' })
