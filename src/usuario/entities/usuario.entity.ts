@@ -67,8 +67,10 @@ export class Usuario {
   })
   projeto: Projeto[];
 
-  @JoinTable()
-  @ManyToMany(() => Tarefa, (tarefa) => tarefa.usuario)
+  @JoinTable({ name: 'usuario_tarefa' })
+  @ManyToMany(() => Tarefa, (tarefa) => tarefa.usuario, {
+    cascade: true,
+  })
   tarefa: Tarefa[];
 
   @BeforeInsert()

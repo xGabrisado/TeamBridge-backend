@@ -19,13 +19,32 @@ export class TarefaService {
     private usuarioService: UsuarioService,
   ) {}
 
-  create(createTarefaDto: CreateTarefaDto) {
-    const task = this.tarefaRepository.create({ ...createTarefaDto });
-    return this.tarefaRepository.save(task);
+  async create(createTarefaDto: CreateTarefaDto) {
+    const tarefaDto = {
+      taskName: createTarefaDto.taskName,
+      taskPriority: createTarefaDto.taskPriority,
+      taskDeadline: createTarefaDto.taskDeadline,
+      projeto: createTarefaDto.projeto,
+    };
+
+    const task = await this.tarefaRepository.save({ ...tarefaDto });
+    const user = await this.usuarioService.findOneEmpresa(
+      createTarefaDto.usuario[0],
+    );
+
+    const updatedTask = this.tarefaRepository.merge(task, {
+      usuario: user.id,
+    });
+
+    await this.usuarioService.updateTask(user.id, updatedTask);
+
+    return await this.tarefaRepository.save(updatedTask);
   }
 
   async findAll(userId): Promise<Tarefa[]> {
     const user = await this.usuarioService.findOneEmpresa(userId);
+
+    console.log(user);
 
     const haveCompany = await user.empresa;
 
@@ -38,6 +57,41 @@ export class TarefaService {
       //   cause: new Error(),
       //   description: 'Some error description',
       // });
+    }
+
+    const userPermission = await user.userPermission;
+
+    if (userPermission === 'a') {
+      return this.tarefaRepository.find();
+    }
+
+    if (userPermission === 'g') {
+      return this.tarefaRepository.find({
+        relations: {
+          usuario: true,
+          projeto: true,
+        },
+        where: {
+          usuario: {
+            empresa: user.empresa,
+          },
+        },
+        select: {
+          id: true,
+          taskName: true,
+          taskPriority: true,
+          taskStatus: true,
+          taskDeadline: true,
+          usuario: {
+            id: true,
+            userName: true,
+            userLastName: true,
+          },
+          projeto: {
+            projectName: true,
+          },
+        },
+      });
     }
 
     return this.tarefaRepository.find({

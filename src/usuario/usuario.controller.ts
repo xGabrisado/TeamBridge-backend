@@ -50,7 +50,10 @@ export class UsuarioController {
   @UseGuards(AuthGuard('jwt'))
   @ApiForbiddenResponse({ description: 'Acesso negado' })
   @Get()
-  async findAll() {
+  async findAll(@Req() req: any) {
+    const id = req.user.id;
+    // console.log(id);
+
     // @Req() req: any
     // console.log(req.user);
     // const user = req.user;
@@ -62,7 +65,7 @@ export class UsuarioController {
     //   throw new ForbiddenException('Only admin!');
     // }
 
-    return await this.usuarioService.findAll();
+    return await this.usuarioService.findAll(id);
   }
 
   @UseGuards(AuthGuard('jwt'))

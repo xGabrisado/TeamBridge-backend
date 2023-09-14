@@ -24,7 +24,7 @@ export class Tarefa {
   @Column('varchar', { length: 100 })
   taskName: string;
 
-  @Column('varchar', { length: 50, default: 'Atribuido' })
+  @Column('varchar', { length: 50, default: 'A fazer' })
   taskStatus: string;
 
   @Column('varchar', { length: 50 })
@@ -32,6 +32,9 @@ export class Tarefa {
 
   @Column('date')
   taskDeadline: Date;
+
+  @Column({ type: 'boolean', default: false, nullable: true })
+  isDone: boolean;
 
   @CreateDateColumn()
   created_At: Date;
@@ -42,10 +45,10 @@ export class Tarefa {
   @DeleteDateColumn()
   deleted_At: string;
 
-  @ManyToMany(() => Usuario, usuario => usuario.tarefa)
+  @ManyToMany(() => Usuario, (usuario) => usuario.tarefa)
   usuario: Usuario[];
 
-  @ManyToOne(() => Projeto, projeto => projeto.tarefa)
+  @ManyToOne(() => Projeto, (projeto) => projeto.tarefa)
   projeto: Projeto;
 
   constructor(tarefa?: Partial<Tarefa>) {

@@ -51,10 +51,67 @@ export class UsuarioService {
     };
   }
 
-  async findAll(): Promise<Usuario[]> {
-    return await this.usuarioRepository.find({
-      select: ['id', 'userName', 'userLastName', 'userPost'],
+  async findAll(userId): Promise<Usuario[]> {
+    const user = await this.usuarioRepository.findOne({
+      relations: {
+        empresa: true,
+      },
+      where: { id: userId },
     });
+
+    const userPermission = await user.userPermission;
+    console.log(userPermission);
+
+    if (userPermission === 'a') {
+      return this.usuarioRepository.find();
+    }
+
+    if (userPermission === 'g') {
+      return this.usuarioRepository.find({
+        relations: {
+          tarefa: true,
+          projeto: true,
+          empresa: true,
+        },
+        where: {
+          empresa: {
+            id: user.empresa.id,
+          },
+        },
+        select: {
+          id: true,
+          userName: true,
+          userLastName: true,
+          userEmail: true,
+          userPermission: true,
+          userPost: true,
+          projeto: true,
+          tarefa: true,
+        },
+      });
+    }
+
+    return this.usuarioRepository.find({
+      relations: {
+        tarefa: true,
+        projeto: true,
+        empresa: true,
+      },
+      where: {
+        empresa: {
+          id: user.empresa.id,
+        },
+      },
+      select: {
+        id: true,
+        userName: true,
+        userLastName: true,
+      },
+    });
+
+    // return await this.usuarioRepository.find({
+    //   select: ['id', 'userName', 'userLastName', 'userPost'],
+    // });
   }
 
   // async findOne(email: string) {
@@ -179,6 +236,19 @@ export class UsuarioService {
     });
 
     user.projeto.push(project);
+
+    return await this.usuarioRepository.save(user);
+  }
+
+  async updateTask(userId: string, task: any) {
+    const user = await this.usuarioRepository.findOne({
+      where: { id: userId },
+      relations: {
+        tarefa: true,
+      },
+    });
+
+    user.tarefa.push(task);
 
     return await this.usuarioRepository.save(user);
   }
