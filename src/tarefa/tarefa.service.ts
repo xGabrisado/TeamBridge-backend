@@ -43,8 +43,9 @@ export class TarefaService {
 
   async findAll(userId): Promise<Tarefa[]> {
     const user = await this.usuarioService.findOneEmpresa(userId);
+    // console.log('user', user);
 
-    console.log(user);
+    // console.log(user);
 
     const haveCompany = await user.empresa;
 
@@ -59,7 +60,8 @@ export class TarefaService {
       // });
     }
 
-    const userPermission = await user.userPermission;
+    const userPermission = await user.userpermission;
+    // console.log('userPermission', userPermission);
 
     if (userPermission === 'a') {
       return this.tarefaRepository.find();
@@ -82,6 +84,7 @@ export class TarefaService {
           taskPriority: true,
           taskStatus: true,
           taskDeadline: true,
+          isDone: true,
           usuario: {
             id: true,
             userName: true,
@@ -120,7 +123,10 @@ export class TarefaService {
   }
 
   async findOne(id: number) {
-    const task = await this.tarefaRepository.findOne({ where: { id } });
+    const task = await this.tarefaRepository.findOne({
+      where: { id },
+      relations: { usuario: true, projeto: true },
+    });
 
     if (!task) {
       throw new NotFoundException(`Task not found!`);
