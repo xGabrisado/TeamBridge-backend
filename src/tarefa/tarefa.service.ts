@@ -68,7 +68,7 @@ export class TarefaService {
     }
 
     if (userPermission === 'g') {
-      return this.tarefaRepository.find({
+      const list = await this.tarefaRepository.find({
         relations: {
           usuario: true,
           projeto: true,
@@ -85,6 +85,7 @@ export class TarefaService {
           taskStatus: true,
           taskDeadline: true,
           isDone: true,
+          deleted_At: true,
           usuario: {
             id: true,
             userName: true,
@@ -95,9 +96,14 @@ export class TarefaService {
           },
         },
       });
+
+      const filteredList = list.filter((task) => task.deleted_At === null);
+
+      // console.log('filteredList', filteredList);
+      return filteredList;
     }
 
-    return this.tarefaRepository.find({
+    const list = await this.tarefaRepository.find({
       relations: {
         usuario: true,
         projeto: true,
@@ -120,6 +126,10 @@ export class TarefaService {
         },
       },
     });
+
+    const filteredList = list.filter((task) => task.deleted_At === null);
+
+    return filteredList;
   }
 
   async findOne(id: number) {
@@ -155,6 +165,6 @@ export class TarefaService {
       throw new NotFoundException(`Task not found!`);
     }
 
-    return this.tarefaRepository.remove(task);
+    return this.tarefaRepository.softRemove(task);
   }
 }

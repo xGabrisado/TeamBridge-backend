@@ -60,7 +60,7 @@ export class UsuarioService {
     });
 
     const userPermission = await user.userPermission;
-    console.log(userPermission);
+    // console.log(userPermission);s
 
     if (userPermission === 'a') {
       return this.usuarioRepository.find();

@@ -12,8 +12,8 @@ export class JwtEmpresa extends PassportStrategy(Strategy, 'jwtEmpresa') {
 
   validate(payload: any) {
     const empresaid = payload.empresaid;
-    console.log('empresaid');
-    console.log(empresaid);
+    // console.log('empresaid');
+    // console.log(empresaid);
 
     return {
       empresaid: empresaid,
