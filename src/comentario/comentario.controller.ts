@@ -8,7 +8,6 @@ import {
   Delete,
 } from '@nestjs/common';
 import { ComentarioService } from './comentario.service';
-import { CreateComentarioDto } from './dto/create-comentario.dto';
 import { UpdateComentarioDto } from './dto/update-comentario.dto';
 
 @Controller('comentario')
@@ -19,10 +18,10 @@ export class ComentarioController {
   // create(@Body() createComentarioDto: CreateComentarioDto) {
   //   return this.comentarioService.create(createComentarioDto);
   // }
-  @Get()
-  findAll() {
-    return this.comentarioService.findAll();
-  }
+  // @Get()
+  // findAll() {
+  //   return this.comentarioService.findAll();
+  // }
 
   @Get(':id')
   findOne(@Param('id') id: string) {

@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsuarioService } from 'src/usuario/usuario.service';
 import { TarefaService } from 'src/tarefa/tarefa.service';
+import { log } from 'console';
 
 @Injectable()
 export class ComentarioService {
@@ -45,7 +46,14 @@ export class ComentarioService {
     return await this.comentarioRepository.save(comentario);
   }
 
-  findAll() {
+  async findAll(tarefaId) {
+    const tarefas = await this.comentarioRepository.find({
+      relations: { tarefa: true },
+      where: { tarefa: tarefaId },
+    });
+
+    log(tarefas);
+
     return `This action returns all comentario`;
   }
 

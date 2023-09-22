@@ -58,6 +58,14 @@ export class TarefaController {
   }
 
   @ApiForbiddenResponse({ description: 'Acesso negado' })
+  @Get(':id/comentario')
+  findAllComments(@Param('id') tarefaId: string) {
+    // console.log(req.user);
+
+    return this.comentarioService.findAll(+tarefaId);
+  }
+
+  @ApiForbiddenResponse({ description: 'Acesso negado' })
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.tarefaService.findOne(+id);
