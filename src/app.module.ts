@@ -13,6 +13,7 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { CaslModule } from './casl/casl.module';
+import { ComentarioModule } from './comentario/comentario.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { CaslModule } from './casl/casl.module';
     } as TypeOrmModuleOptions),
     AuthModule,
     CaslModule,
+    ComentarioModule,
   ],
   controllers: [AppController],
   providers: [AppService],

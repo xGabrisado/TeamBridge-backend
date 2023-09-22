@@ -14,12 +14,18 @@ import { CreateTarefaDto } from './dto/create-tarefa.dto';
 import { UpdateTarefaDto } from './dto/update-tarefa.dto';
 import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
+import { CreateComentarioDto } from 'src/comentario/dto/create-comentario.dto';
+import { ComentarioService } from 'src/comentario/comentario.service';
+import { log } from 'console';
 
 @ApiTags('Tasks')
 @UseGuards(AuthGuard('jwt'))
 @Controller('tarefa')
 export class TarefaController {
-  constructor(private readonly tarefaService: TarefaService) {}
+  constructor(
+    private readonly tarefaService: TarefaService,
+    private readonly comentarioService: ComentarioService,
+  ) {}
 
   @ApiForbiddenResponse({ description: 'Acesso negado' })
   @Post()
@@ -33,6 +39,22 @@ export class TarefaController {
     const id = req.user.id;
 
     return this.tarefaService.findAll(id);
+  }
+
+  @ApiForbiddenResponse({ description: 'Acesso negado' })
+  @Post(':id/comentario')
+  createComment(
+    @Param('id') tarefaId: string,
+    @Body() createComentarioDto: CreateComentarioDto,
+    @Req() req: any,
+  ) {
+    // console.log(req.user);
+
+    return this.comentarioService.create(
+      +tarefaId,
+      createComentarioDto,
+      req.user.id,
+    );
   }
 
   @ApiForbiddenResponse({ description: 'Acesso negado' })

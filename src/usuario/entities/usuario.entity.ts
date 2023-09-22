@@ -14,10 +14,12 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { hashSync } from 'bcrypt';
+import { Comentario } from 'src/comentario/entities/comentario.entity';
 
 @Entity()
 export class Usuario {
@@ -72,6 +74,9 @@ export class Usuario {
     cascade: true,
   })
   tarefa: Tarefa[];
+
+  @OneToMany(() => Comentario, (empresa) => empresa.usuario)
+  comentario: Comentario[];
 
   @BeforeInsert()
   hashPassword() {

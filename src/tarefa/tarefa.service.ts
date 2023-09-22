@@ -7,7 +7,7 @@ import {
 import { CreateTarefaDto } from './dto/create-tarefa.dto';
 import { UpdateTarefaDto } from './dto/update-tarefa.dto';
 import { Tarefa } from './entities/tarefa.entity';
-import { Repository } from 'typeorm';
+import { FindOneOptions, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsuarioService } from 'src/usuario/usuario.service';
 
@@ -130,6 +130,15 @@ export class TarefaService {
     const filteredList = list.filter((task) => task.deleted_At === null);
 
     return filteredList;
+  }
+
+  async findOneOrFail(options: FindOneOptions<Tarefa>) {
+    try {
+      const response = await this.tarefaRepository.findOneOrFail(options);
+      return response;
+    } catch (error) {
+      throw new NotFoundException(error.messge);
+    }
   }
 
   async findOne(id: number) {

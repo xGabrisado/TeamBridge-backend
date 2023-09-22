@@ -1,3 +1,4 @@
+import { Comentario } from 'src/comentario/entities/comentario.entity';
 import { Projeto } from 'src/projeto/entities/projeto.entity';
 import { Usuario } from 'src/usuario/entities/usuario.entity';
 import {
@@ -8,6 +9,7 @@ import {
   Generated,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -50,6 +52,9 @@ export class Tarefa {
 
   @ManyToOne(() => Projeto, (projeto) => projeto.tarefa)
   projeto: Projeto;
+
+  @OneToMany(() => Comentario, (comentario) => comentario.tarefa)
+  comentario: Comentario[];
 
   constructor(tarefa?: Partial<Tarefa>) {
     this.id = tarefa?.id;
