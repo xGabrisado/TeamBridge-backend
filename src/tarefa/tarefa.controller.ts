@@ -17,6 +17,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { CreateComentarioDto } from 'src/comentario/dto/create-comentario.dto';
 import { ComentarioService } from 'src/comentario/comentario.service';
 import { log } from 'console';
+import { UpdateComentarioDto } from 'src/comentario/dto/update-comentario.dto';
 
 @ApiTags('Tasks')
 @UseGuards(AuthGuard('jwt'))
@@ -63,6 +64,29 @@ export class TarefaController {
     // console.log(req.user);
 
     return this.comentarioService.findAll(+tarefaId);
+  }
+
+  @ApiForbiddenResponse({ description: 'Acesso negado' })
+  @Get(':id/comentario/:commentId')
+  findOneComments(
+    @Param('id') tarefaId: string,
+    @Param('commentId') commentId: any,
+  ) {
+    // console.log(req.user);
+
+    return this.comentarioService.findOne(+tarefaId, commentId);
+  }
+
+  @ApiForbiddenResponse({ description: 'Acesso negado' })
+  @Patch(':id/comentario/:commentId')
+  editComments(
+    @Param('id') tarefaId: string,
+    @Param('commentId') commentId: any,
+    @Body() updateComentarioDto: UpdateComentarioDto,
+  ) {
+    // console.log(req.user);
+
+    return this.comentarioService.update(commentId, updateComentarioDto);
   }
 
   @ApiForbiddenResponse({ description: 'Acesso negado' })

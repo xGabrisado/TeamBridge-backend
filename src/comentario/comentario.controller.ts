@@ -23,18 +23,18 @@ export class ComentarioController {
   //   return this.comentarioService.findAll();
   // }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.comentarioService.findOne(+id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.comentarioService.findOne(+id);
+  // }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateComentarioDto: UpdateComentarioDto,
-  ) {
-    return this.comentarioService.update(+id, updateComentarioDto);
-  }
+  // @Patch(':id')
+  // update(
+  //   @Param('id') id: string,
+  //   @Body() updateComentarioDto: UpdateComentarioDto,
+  // ) {
+  //   return this.comentarioService.update(+id, updateComentarioDto);
+  // }
 
   @Delete(':id')
   remove(@Param('id') id: string) {

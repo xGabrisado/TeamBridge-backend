@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateComentarioDto } from './dto/create-comentario.dto';
 import { UpdateComentarioDto } from './dto/update-comentario.dto';
 import { Comentario } from './entities/comentario.entity';
@@ -48,21 +48,36 @@ export class ComentarioService {
 
   async findAll(tarefaId) {
     const tarefas = await this.comentarioRepository.find({
-      relations: { tarefa: true },
+      relations: { tarefa: true, usuario: true },
       where: { tarefa: tarefaId },
     });
 
-    log(tarefas);
+    // log(tarefas);
 
-    return `This action returns all comentario`;
+    return tarefas;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} comentario`;
+  async findOne(tarefaId: any, commentId: number) {
+    const comentario = await this.comentarioRepository.findOne({
+      relations: { tarefa: true, usuario: true },
+      where: { tarefa: tarefaId, id: commentId },
+    });
+
+    return comentario;
   }
 
-  update(id: number, updateComentarioDto: UpdateComentarioDto) {
-    return `This action updates a #${id} comentario`;
+  async update(commentId: number, updateComentarioDto: UpdateComentarioDto) {
+    const comentario = await this.comentarioRepository.findOneBy({
+      id: commentId,
+    });
+
+    if (!comentario) {
+      throw new NotFoundException(`comentario not found!`);
+    }
+
+    this.comentarioRepository.merge(comentario, updateComentarioDto);
+
+    return this.comentarioRepository.save(comentario);
   }
 
   remove(id: number) {
