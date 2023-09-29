@@ -53,7 +53,9 @@ export class Tarefa {
   @ManyToOne(() => Projeto, (projeto) => projeto.tarefa)
   projeto: Projeto;
 
-  @OneToMany(() => Comentario, (comentario) => comentario.tarefa)
+  @OneToMany(() => Comentario, (comentario) => comentario.tarefa, {
+    cascade: true,
+  })
   comentario: Comentario[];
 
   constructor(tarefa?: Partial<Tarefa>) {
