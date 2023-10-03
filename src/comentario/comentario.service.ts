@@ -47,9 +47,11 @@ export class ComentarioService {
   }
 
   async findAll(tarefaId) {
+    console.log('tarefaId', tarefaId);
+
     const tarefas = await this.comentarioRepository.find({
       relations: { tarefa: true, usuario: true },
-      where: { tarefa: tarefaId },
+      where: { tarefa: { id: tarefaId } },
     });
 
     // log(tarefas);
