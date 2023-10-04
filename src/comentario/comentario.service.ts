@@ -22,9 +22,9 @@ export class ComentarioService {
     createComentarioDto: CreateComentarioDto,
     usuarioId: string,
   ) {
-    console.log('tarefaId', tarefaId);
-    console.log('createComentarioDto', createComentarioDto);
-    console.log('usuarioId', usuarioId);
+    // console.log('tarefaId', tarefaId);
+    // console.log('createComentarioDto', createComentarioDto);
+    // console.log('usuarioId', usuarioId);
     const user = await this.usuarioService.findOneOrFail({
       where: { id: usuarioId },
     });
@@ -47,7 +47,7 @@ export class ComentarioService {
   }
 
   async findAll(tarefaId) {
-    console.log('tarefaId', tarefaId);
+    // console.log('tarefaId', tarefaId);
 
     const tarefas = await this.comentarioRepository.find({
       relations: { tarefa: true, usuario: true },
