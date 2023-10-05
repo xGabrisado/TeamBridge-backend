@@ -14,6 +14,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { CaslModule } from './casl/casl.module';
 import { ComentarioModule } from './comentario/comentario.module';
+import { NotificaçcaoModule } from './notificaçcao/notificaçcao.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { ComentarioModule } from './comentario/comentario.module';
     AuthModule,
     CaslModule,
     ComentarioModule,
+    NotificaçcaoModule,
   ],
   controllers: [AppController],
   providers: [AppService],
