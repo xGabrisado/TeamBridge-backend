@@ -1,4 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Notificaçcao {
@@ -6,5 +12,20 @@ export class Notificaçcao {
   id: number;
 
   @Column()
+  notificationText: string;
+
+  @Column()
   tarefaId: number;
+
+  @Column()
+  usuarioId: string;
+
+  @Column({ default: false })
+  isOpen: boolean;
+
+  @CreateDateColumn()
+  created_At: Date;
+
+  @UpdateDateColumn()
+  updated_At: Date;
 }
