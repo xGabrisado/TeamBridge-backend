@@ -90,8 +90,27 @@ export class UsuarioService {
         },
       });
     }
+    // const teste = await this.usuarioRepository.find({
+    //   relations: {
+    //     tarefa: true,
+    //     projeto: true,
+    //     empresa: true,
+    //   },
+    //   where: {
+    //     empresa: {
+    //       id: user.empresa.id,
+    //     },
+    //   },
+    //   select: {
+    //     id: true,
+    //     userName: true,
+    //     userLastName: true,
+    //   },
+    // });
 
-    return this.usuarioRepository.find({
+    // console.log('repository testea', teste);
+
+    return await this.usuarioRepository.find({
       relations: {
         tarefa: true,
         projeto: true,

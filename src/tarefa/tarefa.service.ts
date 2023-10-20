@@ -127,7 +127,9 @@ export class TarefaService {
       },
     });
 
-    const filteredList = list.filter((task) => task.deleted_At === null);
+    const filteredList = list.filter((task) => task.deleted_At !== null);
+
+    console.log('filteredlist', filteredList);
 
     return filteredList;
   }
