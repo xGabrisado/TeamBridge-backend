@@ -1,18 +1,16 @@
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
-export class Notificaçcao {
+export class Notificacao {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Column()
-  notificationText: string;
 
   @Column()
   tarefaId: number;
@@ -28,4 +26,7 @@ export class Notificaçcao {
 
   @UpdateDateColumn()
   updated_At: Date;
+
+  @DeleteDateColumn()
+  deleted_at: Date;
 }

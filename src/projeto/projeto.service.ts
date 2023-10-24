@@ -43,6 +43,7 @@ export class ProjetoService {
 
   async findAll(userId: any): Promise<Projeto[]> {
     const user = await this.usuarioService.findOneEmpresa(userId);
+    // console.log('user', user);
 
     const haveCompany = await user.empresa;
 
@@ -55,6 +56,42 @@ export class ProjetoService {
       //   cause: new Error(),
       //   description: 'Some error description',
       // });
+    }
+    // console.log('user.empresa:', user.empresa);
+
+    if ((user.userpermission = 'g')) {
+      return this.projetoRepository.find({
+        relations: {
+          usuario: true,
+          empresa: true,
+          tarefa: true,
+        },
+        where: {
+          empresa: {
+            id: user.empresa,
+          },
+        },
+        select: {
+          id: true,
+          projectName: true,
+          projectDescription: true,
+          projectBeginning: true,
+          isDone: true,
+          projectDeadline: true,
+          usuario: {
+            id: true,
+            userName: true,
+            userLastName: true,
+            userEmail: true,
+          },
+          tarefa: {
+            taskName: true,
+          },
+          empresa: {
+            id: true,
+          },
+        },
+      });
     }
 
     return this.projetoRepository.find({
@@ -82,6 +119,7 @@ export class ProjetoService {
           id: true,
           userName: true,
           userLastName: true,
+          userEmail: true,
         },
         tarefa: {
           taskName: true,

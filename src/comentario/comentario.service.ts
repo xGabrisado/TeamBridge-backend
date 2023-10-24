@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UsuarioService } from 'src/usuario/usuario.service';
 import { TarefaService } from 'src/tarefa/tarefa.service';
 import { log } from 'console';
+import { NotificacaoService } from 'src/notificacao/notificacao.service';
 
 @Injectable()
 export class ComentarioService {
@@ -15,6 +16,7 @@ export class ComentarioService {
     private readonly comentarioRepository: Repository<Comentario>,
     private usuarioService: UsuarioService,
     private tarefaService: TarefaService,
+    private notificaçãoService: NotificacaoService,
   ) {}
 
   async create(
@@ -31,6 +33,7 @@ export class ComentarioService {
 
     const tarefa = await this.tarefaService.findOneOrFail({
       where: { id: tarefaId },
+      relations: { usuario: true },
     });
 
     const comentario = this.comentarioRepository.create({
@@ -38,6 +41,8 @@ export class ComentarioService {
       usuario: user,
       tarefa: tarefa,
     });
+
+    const notificação = await this.notificaçãoService.create(user, tarefa);
 
     // const comentarioSalvo = await this.comentarioRepository.save(comentario);
 
