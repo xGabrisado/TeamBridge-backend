@@ -50,8 +50,15 @@ export class NotificacaoService {
     return `This action returns a #${id} notificacao`;
   }
 
-  update(id: number, updateNotificacaoDto: UpdateNotificacaoDto) {
-    return `This action updates a #${id} notificacao`;
+  async update(id: number, updateNotificacaoDto: UpdateNotificacaoDto) {
+    console.log(id, UpdateNotificacaoDto);
+    const notification = await this.notificacaoRepository.findOneOrFail({
+      where: { id },
+    });
+
+    this.notificacaoRepository.merge(notification, updateNotificacaoDto);
+
+    return this.notificacaoRepository.save(notification);
   }
 
   remove(id: number) {
