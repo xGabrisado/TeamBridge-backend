@@ -16,7 +16,7 @@ export class ComentarioService {
     private readonly comentarioRepository: Repository<Comentario>,
     private usuarioService: UsuarioService,
     private tarefaService: TarefaService,
-    private notificaçãoService: NotificacaoService,
+    private notificacaoService: NotificacaoService,
   ) {}
 
   async create(
@@ -42,7 +42,13 @@ export class ComentarioService {
       tarefa: tarefa,
     });
 
-    const notificação = await this.notificaçãoService.create(user, tarefa);
+    const notificationText = `Você possui um comentario na tarefa ${tarefaId}`;
+
+    const notificação = await this.notificacaoService.create(
+      notificationText,
+      user.id,
+      tarefa,
+    );
 
     // const comentarioSalvo = await this.comentarioRepository.save(comentario);
 

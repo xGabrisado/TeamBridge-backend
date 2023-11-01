@@ -37,7 +37,7 @@ export class UsuarioService {
       select: ['userEmail'],
     });
 
-    console.log(emailAlreadyExists);
+    // console.log(emailAlreadyExists);
 
     if (emailAlreadyExists) {
       throw new ConflictException();

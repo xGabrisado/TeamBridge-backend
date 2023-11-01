@@ -10,6 +10,7 @@ import { Tarefa } from './entities/tarefa.entity';
 import { FindOneOptions, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsuarioService } from 'src/usuario/usuario.service';
+import { NotificacaoService } from 'src/notificacao/notificacao.service';
 
 @Injectable()
 export class TarefaService {
@@ -17,6 +18,7 @@ export class TarefaService {
     @InjectRepository(Tarefa)
     private readonly tarefaRepository: Repository<Tarefa>,
     private usuarioService: UsuarioService,
+    private notificacaoService: NotificacaoService,
   ) {}
 
   async create(createTarefaDto: CreateTarefaDto) {
@@ -129,7 +131,7 @@ export class TarefaService {
 
     const filteredList = list.filter((task) => task.deleted_At !== null);
 
-    console.log('filteredlist', filteredList);
+    // console.log('filteredlist', filteredList);
 
     return filteredList;
   }
@@ -156,14 +158,31 @@ export class TarefaService {
     return task;
   }
 
-  async update(id: number, updateTarefaDto: UpdateTarefaDto) {
+  async update(userId: string, id: number, updateTarefaDto: UpdateTarefaDto) {
     const task = await this.tarefaRepository.preload({
       id: id,
       ...updateTarefaDto,
     });
+    // console.log('task', task);
+    // return 'this';
 
     if (!task) {
       throw new NotFoundException(`Task not found!`);
+    }
+
+    if (updateTarefaDto.taskStatus) {
+      const taks2 = await this.tarefaRepository.findOneOrFail({
+        where: { id },
+        relations: { usuario: true },
+      });
+      const notificationText = `A tarefa ${id} teve alteração em seu status`;
+      // console.log('updateTarefaDto', updateTarefaDto);
+      // return 'this';
+      const notificação = await this.notificacaoService.create(
+        notificationText,
+        userId,
+        taks2,
+      );
     }
 
     return this.tarefaRepository.save(task);

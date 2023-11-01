@@ -97,8 +97,14 @@ export class TarefaController {
 
   @ApiForbiddenResponse({ description: 'Acesso negado' })
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTarefaDto: UpdateTarefaDto) {
-    return this.tarefaService.update(+id, updateTarefaDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateTarefaDto: UpdateTarefaDto,
+    @Req() req: any,
+  ) {
+    // console.log(req.user.id)
+
+    return this.tarefaService.update(req.user.id, +id, updateTarefaDto);
   }
 
   @ApiForbiddenResponse({ description: 'Acesso negado' })

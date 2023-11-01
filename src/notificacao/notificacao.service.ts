@@ -14,16 +14,17 @@ export class NotificacaoService {
     private readonly notificacaoRepository: Repository<Notificacao>,
   ) {}
 
-  async create(user: Usuario, tarefa: Tarefa) {
-    // console.log('user', user);
+  async create(notificationText: string, userId: string, tarefa: Tarefa) {
+    // console.log('user', userId);
 
     // console.log('tarefa', tarefa);
 
-    if (user.id === tarefa.usuario[0].id) {
+    if (userId === tarefa.usuario[0].id) {
       return 'the same user as the task';
     }
 
     const notificacao = this.notificacaoRepository.create({
+      notification_text: notificationText,
       tarefaId: tarefa.id,
       usuarioId: tarefa.usuario[0].id,
     });
@@ -32,7 +33,7 @@ export class NotificacaoService {
 
     // console.log(
     //   'notificação salva: ',
-    //   await this.notificacaoRepository.save(notificacao),
+    //   await this.noti  ficacaoRepository.save(notificacao),
     // );
 
     return await this.notificacaoRepository.save(notificacao);
@@ -51,7 +52,7 @@ export class NotificacaoService {
   }
 
   async update(id: number, updateNotificacaoDto: UpdateNotificacaoDto) {
-    console.log(id, UpdateNotificacaoDto);
+    // console.log(id, UpdateNotificacaoDto);
     const notification = await this.notificacaoRepository.findOneOrFail({
       where: { id },
     });

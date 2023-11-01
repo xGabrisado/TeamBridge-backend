@@ -12,6 +12,9 @@ export class Notificacao {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ nullable: true })
+  notification_text: string;
+
   @Column()
   tarefaId: number;
 

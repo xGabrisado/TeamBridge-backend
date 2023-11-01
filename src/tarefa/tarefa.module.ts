@@ -7,12 +7,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Tarefa } from './entities/tarefa.entity';
 import { UsuarioModule } from 'src/usuario/usuario.module';
 import { ComentarioModule } from 'src/comentario/comentario.module';
+import { NotificacaoModule } from 'src/notificacao/notificacao.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Tarefa]),
     UsuarioModule,
     forwardRef(() => ComentarioModule),
+    NotificacaoModule,
   ],
   controllers: [TarefaController],
   providers: [TarefaService],
