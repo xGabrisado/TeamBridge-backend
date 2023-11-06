@@ -77,7 +77,9 @@ export class TarefaService {
         },
         where: {
           usuario: {
-            empresa: user.empresa,
+            empresa: {
+              id: user.empresa,
+            },
           },
         },
         select: {

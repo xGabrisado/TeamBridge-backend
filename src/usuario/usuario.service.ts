@@ -203,13 +203,15 @@ export class UsuarioService {
   async updateAfterEmpresa(id: any, userPermission: string) {
     // console.log('id');
     // console.log(id);
-    // console.log('userPermission');
-    // console.log(userPermission);
+    console.log('userPermission');
+    console.log(userPermission);
     const user = await this.findOneOrFail({ where: { id } });
 
-    return this.usuarioRepository.merge(user, {
+    const savedUser = this.usuarioRepository.merge(user, {
       userPermission: userPermission,
     });
+
+    return this.usuarioRepository.save(savedUser);
   }
 
   async updateEmpresa(userId: string, empresaId: any) {

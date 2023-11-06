@@ -71,6 +71,8 @@ export class EmpresaService {
     await this.usuarioService.updateEmpresa(userId, savedCompany.id);
     // console.log('updateEmpresa');
     // console.log(teste);
+    console.log('userId', userId);
+
     await this.usuarioService.updateAfterEmpresa(userId, 'g');
 
     // return 'createdEmpresa';
