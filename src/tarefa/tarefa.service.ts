@@ -70,6 +70,9 @@ export class TarefaService {
     }
 
     if (userPermission === 'g') {
+      // console.log('user.empresa');
+      // console.log(user.empresa);
+
       const list = await this.tarefaRepository.find({
         relations: {
           usuario: true,
@@ -77,9 +80,7 @@ export class TarefaService {
         },
         where: {
           usuario: {
-            empresa: {
-              id: user.empresa,
-            },
+            empresa: user.empresa,
           },
         },
         select: {
@@ -100,6 +101,8 @@ export class TarefaService {
           },
         },
       });
+
+      console.log('list', list);
 
       const filteredList = list.filter((task) => task.deleted_At === null);
 
