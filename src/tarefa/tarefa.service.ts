@@ -123,6 +123,7 @@ export class TarefaService {
         taskPriority: true,
         taskStatus: true,
         taskDeadline: true,
+        isDone: true,
         usuario: {
           id: true,
           userName: true,

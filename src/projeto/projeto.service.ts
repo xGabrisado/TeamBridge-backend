@@ -59,7 +59,7 @@ export class ProjetoService {
     }
     // console.log('user.empresa:', user.empresa);
 
-    if ((user.userpermission = 'g')) {
+    if (user.userpermission === 'g') {
       return this.projetoRepository.find({
         relations: {
           usuario: true,
