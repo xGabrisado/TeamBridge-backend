@@ -78,6 +78,7 @@ export class ProjetoService {
           projectBeginning: true,
           isDone: true,
           projectDeadline: true,
+          done_at: true,
           usuario: {
             id: true,
             userName: true,
@@ -115,6 +116,7 @@ export class ProjetoService {
         projectBeginning: true,
         isDone: true,
         projectDeadline: true,
+        done_at: true,
         usuario: {
           id: true,
           userName: true,
@@ -143,6 +145,7 @@ export class ProjetoService {
         projectBeginning: true,
         isDone: true,
         created_At: true,
+        done_at: true,
         usuario: {
           userName: true,
           userLastName: true,
@@ -181,6 +184,8 @@ export class ProjetoService {
     // console.log(project);
 
     project.isDone = true;
+    project.done_at = new Date();
+    console.log('new Date()', new Date());
 
     // console.log('project after');
     // console.log(project);
