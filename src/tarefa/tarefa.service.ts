@@ -11,6 +11,7 @@ import { FindOneOptions, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsuarioService } from 'src/usuario/usuario.service';
 import { NotificacaoService } from 'src/notificacao/notificacao.service';
+import { Empresa } from 'src/empresa/entities/empresa.entity';
 
 @Injectable()
 export class TarefaService {
@@ -80,7 +81,9 @@ export class TarefaService {
         },
         where: {
           usuario: {
-            empresa: user.empresa,
+            empresa: {
+              id: user.empresa,
+            },
           },
         },
         select: {
@@ -102,7 +105,7 @@ export class TarefaService {
         },
       });
 
-      console.log('list', list);
+      // console.log('list', list);
 
       const filteredList = list.filter((task) => task.deleted_At === null);
 
