@@ -265,6 +265,6 @@ export class ProjetoService {
       throw new NotFoundException(`Project not found!`);
     }
 
-    return this.projetoRepository.remove(project);
+    return this.projetoRepository.softRemove(project);
   }
 }

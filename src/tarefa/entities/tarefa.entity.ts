@@ -50,7 +50,7 @@ export class Tarefa {
   @ManyToMany(() => Usuario, (usuario) => usuario.tarefa)
   usuario: Usuario[];
 
-  @ManyToOne(() => Projeto, (projeto) => projeto.tarefa)
+  @ManyToOne(() => Projeto, (projeto) => projeto.tarefa, { cascade: true })
   projeto: Projeto;
 
   @OneToMany(() => Comentario, (comentario) => comentario.tarefa, {
